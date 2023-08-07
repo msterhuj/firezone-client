@@ -19,7 +19,13 @@ class User:
         user = User()
         user.__dict__.update(data)
         return user
-
+    
+    @staticmethod
+    def list(client) -> List['User']:
+        return [
+            User().__init_from_dict__(user_json)
+            for user_json in client.__get__("/users")["data"]
+        ]
 
 class Configurations:
     allow_unprivileged_device_configuration: bool
@@ -102,8 +108,5 @@ class FZClient:
     def get(self, obj: object) -> object:
         return obj.get(self)
 
-    def get_users(self) -> List[User]:
-        return [
-            User().__init_from_dict__(user_json)
-            for user_json in self.__get__("/users")["data"]
-        ]
+    def patch(self, obj: object) -> object:
+        return obj.patch(self)

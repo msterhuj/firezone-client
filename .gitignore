@@ -1,2 +1,4 @@
 dist
 docker
+__pycache__
+dev.py

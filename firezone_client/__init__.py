@@ -27,6 +27,9 @@ class User:
             for user_json in client.__get__("/users")["data"]
         ]
 
+    def get(client, *args, **kwargs) -> 'User':
+        pass
+
 class Configurations:
     allow_unprivileged_device_configuration: bool
     allow_unprivileged_device_management: bool
@@ -52,7 +55,7 @@ class Configurations:
         return configurations
     
     @staticmethod
-    def get(client) -> 'Configurations':
+    def get(client, *args, **kwargs) -> 'Configurations':
         return Configurations.__init_from_dict__(client.__get__("/configuration")["data"])
 
     def patch(self, client):
@@ -105,8 +108,8 @@ class FZClient:
     def list(self, obj: object) -> object:
         return obj.list(self)
     
-    def get(self, obj: object) -> object:
-        return obj.get(self)
+    def get(self, obj: object, *args, **kwargs) -> object:
+        return obj.get(self, *args, **kwargs)
 
     def patch(self, obj: object) -> object:
         return obj.patch(self)

@@ -28,4 +28,4 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --with docs --no-root
-      - run: mkdocs gh-deploy --force
+      - run: python3 -m mkdocs gh-deploy --force

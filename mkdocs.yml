@@ -8,6 +8,25 @@ repo_name: firezone-client
 repo_url: https://github.com/msterhuj/firezone-client
 edit_uri: https://github.com/msterhuj/firezone-client
 
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Reference:
+    - Configurations: reference/configurations.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
 theme:
   name: material
 
@@ -16,3 +35,5 @@ theme:
   
   icon:
     repo: fontawesome/brands/github
+
+  features: []

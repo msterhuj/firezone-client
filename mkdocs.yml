@@ -1,0 +1,18 @@
+site_name: Firezone python client
+#site_url: 
+site_author: msterhuj
+site_description: >-
+  A simple interface to manage firezone with its api
+
+repo_name: firezone-client
+repo_url: https://github.com/msterhuj/firezone-client
+edit_uri: https://github.com/msterhuj/firezone-client
+
+theme:
+  name: material
+
+  palette:
+    primary: deep orange
+  
+  icon:
+    repo: fontawesome/brands/github

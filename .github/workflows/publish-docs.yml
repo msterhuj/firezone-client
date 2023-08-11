@@ -56,7 +56,7 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --with docs --no-root
       
-      - run: mkdocs build --site-dir ./_site
+      - run: poetry run mkdocs build --site-dir ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
   

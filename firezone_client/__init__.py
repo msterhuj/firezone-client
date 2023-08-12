@@ -61,6 +61,9 @@ class User:
             raise Exception(server_reply.get("errors"))
 
         return User(**server_reply.get("data"))
+    
+    def delete(self, client):
+        return client.__delete__(f"/users/{self.id}")
 
 class Configurations:
     allow_unprivileged_device_configuration: bool
@@ -143,6 +146,12 @@ class FZClient:
             raise Exception("Error for request API")
         return reply.json()
     
+    def __delete__(self, url: str) -> json:
+        reply = requests.delete(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify)
+        if reply.status_code == 500:
+            raise Exception("Error for request API")
+        return reply.status_code
+    
     def list(self, obj: object) -> object:
         return obj.list(self)
     
@@ -154,3 +163,6 @@ class FZClient:
 
     def patch(self, obj: object) -> object:
         return obj.patch(self)
+    
+    def delete(self, obj: object) -> object:
+        return obj.delete(self)

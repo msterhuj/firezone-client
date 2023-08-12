@@ -11,8 +11,13 @@ class User:
     inserted_at: datetime
     last_signed_in_at: datetime | None
     last_signed_in_method: datetime | None
-    role: str
+    role: str = "unprivileged"
     updated_at: datetime
+
+    password: str | None = None
+
+    def __init__(self, **kwargs) -> None:
+        self.__dict__.update(kwargs)
 
     @staticmethod
     def __init_from_dict__(data: dict) -> 'User':
@@ -35,10 +40,27 @@ class User:
 
         server_reply = client.__get__(f"/users/{user_id}")
 
-        if server_reply.get("error"):
-            raise Exception(server_reply.get("error"))
+        if server_reply.get("errors"):
+            raise Exception(server_reply.get("errors"))
 
         return User().__init_from_dict__(server_reply.get("data"))
+
+    def create(self, client) -> 'User':
+        data = {
+            "user": {
+                "email": self.email,
+                "role": self.role
+            }
+        }
+        if self.password:
+            data["user"]["password"] = self.password
+            data["user"]["password_confirmation"] = self.password
+
+        server_reply = client.__post__("/users", data)
+        if server_reply.get("errors"):
+            raise Exception(server_reply.get("errors"))
+
+        return User(**server_reply.get("data"))
 
 class Configurations:
     allow_unprivileged_device_configuration: bool
@@ -109,6 +131,12 @@ class FZClient:
             raise Exception("Error for request API")
         return reply.json()
     
+    def __post__(self, url: str, body) -> json:
+        reply = requests.post(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify, json=body)
+        if reply.status_code == 500:
+            raise Exception("Error for request API")
+        return reply.json()
+
     def __patch__(self, url: str, body) -> json:
         reply = requests.patch(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify, json=body)
         if reply.status_code == 500:
@@ -120,6 +148,9 @@ class FZClient:
     
     def get(self, obj: object, *args, **kwargs) -> object:
         return obj.get(self, *args, **kwargs)
+
+    def create(self, obj: object) -> object:
+        return obj.create(self)
 
     def patch(self, obj: object) -> object:
         return obj.patch(self)

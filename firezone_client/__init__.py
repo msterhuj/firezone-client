@@ -28,7 +28,17 @@ class User:
         ]
 
     def get(client, *args, **kwargs) -> 'User':
-        pass
+        user_id = kwargs.get("id")
+
+        if user_id is None:
+            raise Exception("id is required")
+
+        server_reply = client.__get__(f"/users/{user_id}")
+
+        if server_reply.get("error"):
+            raise Exception(server_reply.get("error"))
+
+        return User().__init_from_dict__(server_reply.get("data"))
 
 class Configurations:
     allow_unprivileged_device_configuration: bool

@@ -27,8 +27,6 @@ class Configurations:
 ```python
 from firezone_client import FZclient, Configurations
 
-endpoint = "http://localhost:13000/v0"
-token = "0123456789abcdef"
 client = FZClient(endpoint, token)
 
 config = client.get(Configurations)

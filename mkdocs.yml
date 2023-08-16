@@ -1,5 +1,4 @@
 site_name: Firezone python client
-#site_url: 
 site_author: msterhuj
 site_description: >-
   A simple interface to manage firezone with its api

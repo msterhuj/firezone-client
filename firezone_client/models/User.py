@@ -15,21 +15,15 @@ class User:
 
     def __init__(self, **kwargs) -> None:
         self.__dict__.update(kwargs)
-
-    @staticmethod
-    def __init_from_dict__(data: dict) -> 'User':
-        user = User()
-        user.__dict__.update(data)
-        return user
     
     @staticmethod
     def list(client) -> List['User']:
         return [
-            User().__init_from_dict__(user_json)
+            User(user_json)
             for user_json in client.__get__("/users")["data"]
         ]
 
-    def get(client, *args, **kwargs) -> 'User':
+    def get(client, **kwargs) -> 'User':
         user_id = kwargs.get("id")
 
         if user_id is None:
@@ -40,7 +34,7 @@ class User:
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
 
-        return User().__init_from_dict__(server_reply.get("data"))
+        return User(server_reply.get("data"))
 
     def create(self, client) -> 'User':
         data = {

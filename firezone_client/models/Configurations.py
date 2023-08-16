@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Configurations:
     allow_unprivileged_device_configuration: bool
     allow_unprivileged_device_management: bool
@@ -23,7 +24,7 @@ class Configurations:
         configurations = Configurations()
         configurations.__dict__.update(data)
         return configurations
-    
+
     @staticmethod
     def get(client, *args, **kwargs) -> 'Configurations':
         return Configurations.__init_from_dict__(client.__get__("/configuration")["data"])

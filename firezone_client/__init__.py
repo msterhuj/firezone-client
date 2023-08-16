@@ -5,6 +5,7 @@ from typing import List
 import requests
 
 from firezone_client.models import Configurations, User
+from firezone_client.models.Devices import Devices
 
 class FZClient:
     endpoint: str

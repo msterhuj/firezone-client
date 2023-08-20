@@ -12,3 +12,7 @@ jobs:
       - uses: isbang/compose-action@v1.5.1
         with:
           compose-file: "./docker-compose.yml"
+      - name: Migrate firezone database
+        run: docker compose run --rm firezone bin/migrate
+      - name: Create admin
+        run: docker compose run --rm firezone bin/create-or-reset-admin

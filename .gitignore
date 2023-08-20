@@ -4,3 +4,5 @@ docker
 __pycache__
 site
 dev.py
+.token
+.pytest_cache

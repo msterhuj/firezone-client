@@ -16,3 +16,5 @@ jobs:
         run: docker compose run --rm firezone bin/migrate
       - name: Create admin
         run: docker compose run --rm firezone bin/create-or-reset-admin
+      - name: Create API token
+        run: docker compose exec firezone bin/create-api-token > .token

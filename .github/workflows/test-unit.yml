@@ -1,8 +1,11 @@
 name: Run unittest
-
+# ignore docs
 on:
   workflow_dispatch:
   push:
+    paths:
+      - "tests/**"
+      - "firezone_client/**"
   
 jobs:
   test:

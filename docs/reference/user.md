@@ -57,6 +57,8 @@ user = User(
     password="password",
     role="admin",
 )
+
+client.post(user)
 ```
 
 ## Update User
@@ -70,7 +72,7 @@ user = client.get(User, "user@local")
 
 user.role = "admin"
 
-client.patch(user)
+client.create(user)
 ```
 
 ## Delete User

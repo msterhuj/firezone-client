@@ -20,14 +20,12 @@ class Configurations:
     vpn_session_duration: int
 
     @staticmethod
-    def __init_from_dict__(data: dict) -> 'Configurations':
-        configurations = Configurations()
-        configurations.__dict__.update(data)
-        return configurations
+    def __init__(self, *args, **kwargs) -> 'Configurations':
+        self.__dict__.update(kwargs)
 
     @staticmethod
     def get(client, *args, **kwargs) -> 'Configurations':
-        return Configurations.__init_from_dict__(client.__get__("/configuration")["data"])
+        return Configurations(client.__get__("/configuration")["data"])
 
     def patch(self, client):
         data = {

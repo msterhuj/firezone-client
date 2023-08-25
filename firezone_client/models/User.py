@@ -13,7 +13,7 @@ class User:
 
     password: str | None = None
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         self.__dict__.update(kwargs)
     
     @staticmethod
@@ -23,7 +23,7 @@ class User:
             for user_json in client.__get__("/users")["data"]
         ]
 
-    def get(client, **kwargs) -> 'User':
+    def get(client, *args, **kwargs) -> 'User':
         user_id = kwargs.get("id")
 
         if user_id is None:

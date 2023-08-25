@@ -30,17 +30,17 @@ class Devices:
     use_default_persistent_keepalive: bool
     user_id: str | User
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         self.__dict__.update(kwargs)
 
     @staticmethod
     def list(client) -> List['Devices']:
         return [
-            Devices().__init_from_dict__(devices_json)
+            Devices(devices_json)
             for devices_json in client.__get__("/devices")["data"]
         ]
     
-    def get(client, **kwargs) -> 'Devices':
+    def get(client, *args, **kwargs) -> 'Devices':
         devices_id = kwargs.get("id")
 
         if devices_id is None:

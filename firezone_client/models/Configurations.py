@@ -21,13 +21,44 @@ class Configurations:
 
     @staticmethod
     def __init__(self, *args, **kwargs) -> 'Configurations':
+        """
+        Iinitializes a new instance of the Configurations class from dict.
+
+        :param args: Positional arguments to pass to the constructor.
+        :type args: tuple
+
+        :param kwargs: Keyword arguments to pass to the constructor.
+        :type kwargs: dict
+        """
         self.__dict__.update(kwargs)
 
     @staticmethod
     def get(client, *args, **kwargs) -> 'Configurations':
+        """
+        Retrieves the current configuration.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: The current configuration.
+        :rtype: Configurations
+        """
         return Configurations(client.__get__("/configuration")["data"])
 
     def patch(self, client):
+        """
+        Updates the current configuration with the values of this instance.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: The updated configuration.
+        :rtype: Configurations
+        """
         data = {
             "configuration": {
                 "allow_unprivileged_device_configuration": self.allow_unprivileged_device_configuration,

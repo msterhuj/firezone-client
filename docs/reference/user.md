@@ -72,7 +72,7 @@ user = client.get(User, "user@local")
 
 user.role = "admin"
 
-client.create(user)
+client.update(user)
 ```
 
 ## Delete User

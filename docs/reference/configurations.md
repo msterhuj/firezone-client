@@ -44,5 +44,5 @@ config = client.get(Configurations)
 config.default_client_dns.append("1.1.1.1")
 
 # push update
-client.patch(config)
+client.update(config)
 ```

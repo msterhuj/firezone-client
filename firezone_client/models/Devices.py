@@ -56,6 +56,7 @@ class Devices:
         :param kwargs: Keyword arguments to pass to the constructor.
         :type kwargs: dict
         """
+        self.__dict__.update(kwargs)
 
     @staticmethod
     def list(client) -> List['Devices']:

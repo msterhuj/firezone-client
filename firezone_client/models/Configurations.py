@@ -47,7 +47,7 @@ class Configurations:
         """
         return Configurations(client.__get__("/configuration")["data"])
 
-    def patch(self, client):
+    def update(self, client):
         """
         Updates the current configuration with the values of this instance.
 

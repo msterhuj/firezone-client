@@ -135,7 +135,7 @@ class Devices:
         
         return Devices(**server_reply.get("data"))
     
-    def patch(self, client) -> 'Devices':
+    def update(self, client) -> 'Devices':
         """
         Updates the current device with new data using the provided client.
 

@@ -99,7 +99,7 @@ class User:
 
         return User(**server_reply.get("data"))
 
-    def patch(self, client) -> 'User':
+    def update(self, client) -> 'User':
         """
         Update current user with new data and return the updated user.
 

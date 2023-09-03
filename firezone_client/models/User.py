@@ -1,6 +1,7 @@
 from typing import List
 from datetime import datetime
 
+
 class User:
     disabled_at: datetime | None
     email: str
@@ -15,7 +16,7 @@ class User:
 
     def __init__(self, *args, **kwargs) -> None:
         self.__dict__.update(kwargs)
-    
+
     @staticmethod
     def list(client) -> List['User']:
         return [
@@ -52,7 +53,7 @@ class User:
             raise Exception(server_reply.get("errors"))
 
         return User(**server_reply.get("data"))
-    
+
     def patch(self, client) -> 'User':
         old_user_version = User.get(client, id=self.id)
         # get diff between old and new user and add it to the dict
@@ -66,8 +67,8 @@ class User:
         server_reply = client.__patch__(f"/users/{self.id}", data)
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
-        
+
         return User(**server_reply.get("data"))
-    
+
     def delete(self, client):
         return client.__delete__(f"/users/{self.id}")

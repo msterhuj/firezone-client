@@ -4,43 +4,92 @@ from typing import List
 from firezone_client.models import User
 
 class Devices:
-    allowed_ips: list
+
+    # required fields
+    user_id: str | User
+    public_key: str
+
+    # optional fields
+    allowed_ips: list 
     description: str
     dns: list
     endpoint: str
-    id: str
-    inserted_at: datetime
     ipv4: str
     ipv6: str
-    latest_handshake: datetime | None
     mtu: int
     name: str
     persistent_keepalive: int
     preshared_key: str
-    public_key: str
-    remote_ip: str | None
-    rx_bytes: int | None
-    server_public_key: str
-    tx_bytes: int | None
-    updated_at: datetime
     use_default_allowed_ips: bool
     use_default_dns: bool
     use_default_endpoint: bool
     use_default_mtu: bool
     use_default_persistent_keepalive: bool
-    user_id: str | User
 
+    # read-only fields
+    id: str
+    server_public_key: str
+    inserted_at: datetime
+    updated_at: datetime
+    remote_ip: str | None
+    latest_handshake: datetime | None
+    rx_bytes: int | None
+    tx_bytes: int | None
+
+    # minimal required fields for creation or update
+    required_fields = [ "user_id", "public_key" ]
+
+    # optional fields for creation or update
+    optional_fields = [ "allowed_ips", "description", "dns", "endpoint",
+                        "ipv4", "ipv6", "mtu", "name", "persistent_keepalive",
+                        "preshared_key", "use_default_allowed_ips", "use_default_dns",
+                        "use_default_endpoint", "use_default_mtu",
+                        "use_default_persistent_keepalive", "user_id" ]
+        
     def __init__(self, *args, **kwargs) -> None:
-        self.__dict__.update(kwargs)
+        """
+        Initializes a new instance of the Devices class from dict.
+
+        :param args: Positional arguments to pass to the constructor.
+        :type args: tuple
+
+        :param kwargs: Keyword arguments to pass to the constructor.
+        :type kwargs: dict
+        """
 
     @staticmethod
     def list(client) -> List['Devices']:
+        """
+        Retrieves a list of all devices using the provided client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: A list of all devices.
+        :rtype: List[Devices]
+        """
         return [
             Devices(devices_json)
             for devices_json in client.__get__("/devices")["data"]
         ]
     
     def get(client, *args, **kwargs) -> 'Devices':
+        """
+        Retrieves a device with the specified ID using the provided client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :param id: The ID of the device to retrieve.
+        :type id: str
+
+        :raises Exception: If the ID is missing or if the server returns an error.
+
+        :return: The device with the specified ID.
+        :rtype: Devices
+        """
         devices_id = kwargs.get("id")
 
         if devices_id is None:
@@ -54,35 +103,71 @@ class Devices:
         return Devices(server_reply.get("data"))
     
     def create(self, client) -> 'Devices':
-        data = {
-            "device": { 
-                "allowed_ips": self.allowed_ips,
-                "description": self.description,
-                "dns": self.dns,
-                "endpoint": self.endpoint,
-                "inserted_at": self.inserted_at,
-                "ipv4": self.ipv4,
-                "ipv6": self.ipv6,
-                "latest_handshake": self.latest_handshake,
-                "mtu": self.mtu,
-                "name": self.name,
-                "persistent_keepalive": self.persistent_keepalive,
-                "preshared_key": self.preshared_key,
-                "public_key": self.public_key,
-                "server_public_key": self.server_public_key,
-                "use_default_allowed_ips": self.use_default_allowed_ips,
-                "use_default_dns": self.use_default_dns,
-                "use_default_endpoint": self.use_default_endpoint,
-                "use_default_mtu": self.use_default_mtu,
-                "use_default_persistent_keepalive": self.use_default_persistent_keepalive,
-                "user_id": self.user_id,
-            }
-        }
+        """
+        Creates a new device using the provided data with client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If any of the required fields are missing or if the server returns an error.
+
+        :return: The newly created device.
+        :rtype: Devices
+        """
+        data = {"device": {}}
+
+        for field in self.required_fields:
+            if getattr(self, field) is None:
+                raise Exception(f"{field} is required")
+            data["device"][field] = getattr(self, field)
+
         if isinstance(self.user_id, User):
             data["device"]["user_id"] = self.user_id.id
-        
+
+        for field in self.optional_fields:
+            if getattr(self, field) is not None:
+                data["device"][field] = getattr(self, field)
+
         server_reply = client.__post__("/devices", data)
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
         
         return Devices(**server_reply.get("data"))
+    
+    def patch(self, client) -> 'Devices':
+        """
+        Updates the current device with new data using the provided client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If any of the required fields are missing or if the server returns an error.
+
+        :return: The updated device.
+        :rtype: Devices
+        """
+        data = {"device": {}}
+
+        old_devices_version = Devices.get(client, id=self.id)
+
+        for field in self.optional_fields + self.required_fields:
+            if getattr(self, field) != getattr(old_devices_version, field):
+                data["device"][field] = getattr(self, field)
+        
+        if isinstance(self.user_id, User):
+            data["device"]["user_id"] = self.user_id.id
+
+        server_reply = client.__patch__(f"/devices/{self.id}", data)
+        if server_reply.get("errors"):
+            raise Exception(server_reply.get("errors"))
+        
+        return Devices(**server_reply.get("data"))
+    
+    def delete(self, client) -> None:
+        """
+        Deletes the current device using the provided client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+        """
+        return client.__delete__(f"/devices/{self.id}")

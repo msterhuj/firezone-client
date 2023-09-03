@@ -15,16 +15,50 @@ class User:
     password: str | None = None
 
     def __init__(self, *args, **kwargs) -> None:
+        """
+        Initializes a new instance of the User class from dict.
+
+        :param args: Positional arguments to pass to the constructor.
+        :type args: tuple
+
+        :param kwargs: Keyword arguments to pass to the constructor.
+        :type kwargs: dict
+        """
         self.__dict__.update(kwargs)
 
     @staticmethod
     def list(client) -> List['User']:
+        """
+        Receives a list of all users.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: A list of all users.
+        :rtype: List[User]
+        """
         return [
             User(user_json)
             for user_json in client.__get__("/users")["data"]
         ]
 
     def get(client, *args, **kwargs) -> 'User':
+        """
+        Retrieves a user with the specified ID using the provided client.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :param id: The ID of the user to retrieve.
+        :type id: str
+
+        :raises Exception: If the ID is missing or if the server returns an error.
+
+        :return: The user with the specified ID.
+        :rtype: User
+        """
         user_id = kwargs.get("id")
 
         if user_id is None:
@@ -38,6 +72,17 @@ class User:
         return User(server_reply.get("data"))
 
     def create(self, client) -> 'User':
+        """
+        Creates a new user.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: The newly created user.
+        :rtype: User
+        """
         data = {
             "user": {
                 "email": self.email,
@@ -55,6 +100,17 @@ class User:
         return User(**server_reply.get("data"))
 
     def patch(self, client) -> 'User':
+        """
+        Update current user with new data and return the updated user.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+
+        :raises Exception: If the server returns an error.
+
+        :return: The updated user.
+        :rtype: User
+        """
         old_user_version = User.get(client, id=self.id)
         # get diff between old and new user and add it to the dict
         data = {"user": {}}
@@ -71,4 +127,10 @@ class User:
         return User(**server_reply.get("data"))
 
     def delete(self, client):
+        """
+        Delete current user.
+
+        :param client: The client to use for the request.
+        :type client: FZClient
+        """
         return client.__delete__(f"/users/{self.id}")

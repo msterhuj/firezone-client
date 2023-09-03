@@ -19,7 +19,6 @@ class Configurations:
     updated_at: datetime
     vpn_session_duration: int
 
-    @staticmethod
     def __init__(self, *args, **kwargs) -> 'Configurations':
         """
         Iinitializes a new instance of the Configurations class from dict.

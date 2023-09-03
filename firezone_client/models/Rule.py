@@ -56,6 +56,7 @@ class Rule:
             for rule_json in client.__get__("/rules")["data"]
         ]
     
+    @staticmethod
     def get(client, *args, **kwargs) -> 'Rule':
         rule_id = kwargs.get("id", kwargs.id)
 

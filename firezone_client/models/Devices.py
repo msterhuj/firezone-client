@@ -76,6 +76,7 @@ class Devices:
             for devices_json in client.__get__("/devices")["data"]
         ]
     
+    @staticmethod
     def get(client, *args, **kwargs) -> 'Devices':
         """
         Retrieves a device with the specified ID using the provided client.

@@ -44,6 +44,7 @@ class User:
             for user_json in client.__get__("/users")["data"]
         ]
 
+    @staticmethod
     def get(client, *args, **kwargs) -> 'User':
         """
         Retrieves a user with the specified ID using the provided client.

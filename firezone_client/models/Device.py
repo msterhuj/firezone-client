@@ -3,7 +3,7 @@ from typing import List
 
 from firezone_client.models import User
 
-class Devices:
+class Device:
 
     # required fields
     user_id: str | User
@@ -48,7 +48,7 @@ class Devices:
         
     def __init__(self, *args, **kwargs) -> None:
         """
-        Initializes a new instance of the Devices class from dict.
+        Initializes a new instance of the Device class from dict.
 
         :param args: Positional arguments to pass to the constructor.
         :type args: tuple
@@ -59,9 +59,9 @@ class Devices:
         self.__dict__.update(kwargs)
 
     @staticmethod
-    def list(client) -> List['Devices']:
+    def list(client) -> List['Device']:
         """
-        Retrieves a list of all devices using the provided client.
+        Retrieves a list of all device using the provided client.
 
         :param client: The client to use for the request.
         :type client: FZClient
@@ -69,15 +69,15 @@ class Devices:
         :raises Exception: If the server returns an error.
 
         :return: A list of all devices.
-        :rtype: List[Devices]
+        :rtype: List[Device]
         """
         return [
-            Devices(devices_json)
-            for devices_json in client.__get__("/devices")["data"]
+            Device(device_json)
+            for device_json in client.__get__("/devices")["data"]
         ]
     
     @staticmethod
-    def get(client, *args, **kwargs) -> 'Devices':
+    def get(client, *args, **kwargs) -> 'Device':
         """
         Retrieves a device with the specified ID using the provided client.
 
@@ -90,21 +90,21 @@ class Devices:
         :raises Exception: If the ID is missing or if the server returns an error.
 
         :return: The device with the specified ID.
-        :rtype: Devices
+        :rtype: Device
         """
-        devices_id = kwargs.get("id")
+        device_id = kwargs.get("id")
 
-        if devices_id is None:
+        if device_id is None:
             raise Exception("id is required")
 
-        server_reply = client.__get__(f"/devices/{devices_id}")
+        server_reply = client.__get__(f"/devices/{device_id}")
 
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
 
-        return Devices(server_reply.get("data"))
+        return Device(server_reply.get("data"))
     
-    def create(self, client) -> 'Devices':
+    def create(self, client) -> 'Device':
         """
         Creates a new device using the provided data with client.
 
@@ -114,7 +114,7 @@ class Devices:
         :raises Exception: If any of the required fields are missing or if the server returns an error.
 
         :return: The newly created device.
-        :rtype: Devices
+        :rtype: Device
         """
         data = {"device": {}}
 
@@ -134,9 +134,9 @@ class Devices:
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
         
-        return Devices(**server_reply.get("data"))
+        return Device(**server_reply.get("data"))
     
-    def update(self, client) -> 'Devices':
+    def update(self, client) -> 'Device':
         """
         Updates the current device with new data using the provided client.
 
@@ -146,14 +146,14 @@ class Devices:
         :raises Exception: If any of the required fields are missing or if the server returns an error.
 
         :return: The updated device.
-        :rtype: Devices
+        :rtype: Device
         """
         data = {"device": {}}
 
-        old_devices_version = Devices.get(client, id=self.id)
+        old_device_version = Device.get(client, id=self.id)
 
         for field in self.optional_fields + self.required_fields:
-            if getattr(self, field) != getattr(old_devices_version, field):
+            if getattr(self, field) != getattr(old_device_version, field):
                 data["device"][field] = getattr(self, field)
         
         if isinstance(self.user_id, User):
@@ -163,7 +163,7 @@ class Devices:
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
         
-        return Devices(**server_reply.get("data"))
+        return Device(**server_reply.get("data"))
     
     def delete(self, client) -> None:
         """

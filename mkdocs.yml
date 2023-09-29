@@ -8,8 +8,7 @@ repo_url: https://github.com/msterhuj/firezone-client
 edit_uri: https://github.com/msterhuj/firezone-client
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
+  - Getting Started: index.md
   - Reference:
     - Configurations: reference/configurations.md
     - User: reference/user.md

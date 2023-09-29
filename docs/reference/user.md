@@ -20,7 +20,7 @@ class User:
 ## List Users
 
 ```python
-from firezone_client import FZclient, User
+from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
@@ -30,7 +30,7 @@ user = client.list(User)
 ## Get User
 
 ```python
-from firezone_client import FZclient, User
+from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
@@ -48,7 +48,7 @@ user = client.get(User, "user@local")
 | password_confirmation | string | -> | Is required when the password is set. |
 
 ```python
-from firezone_client import FZclient, User
+from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
@@ -58,13 +58,13 @@ user = User(
     role="admin",
 )
 
-client.post(user)
+client.create(user)
 ```
 
 ## Update User
 
 ```python
-from firezone_client import FZclient, User
+from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
@@ -78,7 +78,7 @@ client.update(user)
 ## Delete User
 
 ```python
-from firezone_client import FZclient, User
+from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 

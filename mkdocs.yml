@@ -12,6 +12,7 @@ nav:
   - Reference:
     - Configurations: reference/configurations.md
     - User: reference/user.md
+    - Rule: reference/rule.md
 
 markdown_extensions:
   - pymdownx.highlight:

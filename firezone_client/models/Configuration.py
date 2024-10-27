@@ -44,7 +44,7 @@ class Configuration:
         :return: The current configuration.
         :rtype: Configuration
         """
-        return Configuration(client.__get__("/configuration")["data"])
+        return Configuration(**client.__get__("/configuration")["data"])
 
     def update(self, client):
         """

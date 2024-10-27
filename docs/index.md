@@ -27,4 +27,4 @@ client = FZClient(endpoint, token)
 
 ## Manage firezone !
 
-> go to Reference folder and select what you want to manage :smile:
+> Select on the left the part you want to manage :smile:

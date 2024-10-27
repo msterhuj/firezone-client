@@ -9,10 +9,11 @@ edit_uri: https://github.com/msterhuj/firezone-client
 
 nav:
   - Getting Started: index.md
-  - Reference:
-    - Configuration: reference/configuration.md
-    - User: reference/user.md
-    - Rule: reference/rule.md
+  - Configuration: reference/configuration.md
+  - User: reference/user.md
+  - Rule: reference/rule.md
+  - Device: reference/device.md
+  - Utils: utils.md
 
 markdown_extensions:
   - pymdownx.highlight:

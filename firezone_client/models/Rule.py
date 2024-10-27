@@ -52,7 +52,7 @@ class Rule:
         :rtype: List[Rule]
         """
         return [
-            Rule(rule_json)
+            Rule(**rule_json)
             for rule_json in client.__get__("/rules")["data"]
         ]
 
@@ -68,7 +68,7 @@ class Rule:
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
 
-        return Rule(server_reply.get("data"))
+        return Rule(**server_reply.get("data"))
 
     def create(self, client) -> 'Rule':
         """
@@ -121,6 +121,7 @@ class Rule:
         :return: The updated rule.
         :rtype: Rule
         """
+        raise NotImplementedError("This method is not implemented yet")
         data = {"rule": {}}
 
         old_rule = Rule.get(client, id=self.id)

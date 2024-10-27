@@ -32,7 +32,7 @@ theme:
 
   palette:
     primary: deep orange
-  
+
   icon:
     repo: fontawesome/brands/github
 

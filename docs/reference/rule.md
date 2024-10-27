@@ -12,10 +12,10 @@ class Rule:
     # this field need to be both set or equal to None
     port_range: str | None = None
     port_type: str | None = None
-    
+
     # optional fields
     action: str  # default is drop if not specified
-    
+
     # read-only fields
     id: str
     inserted_at: datetime

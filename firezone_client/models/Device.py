@@ -10,7 +10,7 @@ class Device:
     public_key: str
 
     # optional fields
-    allowed_ips: list 
+    allowed_ips: list
     description: str
     dns: list
     endpoint: str
@@ -45,7 +45,7 @@ class Device:
                         "preshared_key", "use_default_allowed_ips", "use_default_dns",
                         "use_default_endpoint", "use_default_mtu",
                         "use_default_persistent_keepalive", "user_id" ]
-        
+
     def __init__(self, *args, **kwargs) -> None:
         """
         Initializes a new instance of the Device class from dict.
@@ -75,7 +75,7 @@ class Device:
             Device(device_json)
             for device_json in client.__get__("/devices")["data"]
         ]
-    
+
     @staticmethod
     def get(client, *args, **kwargs) -> 'Device':
         """
@@ -103,7 +103,7 @@ class Device:
             raise Exception(server_reply.get("errors"))
 
         return Device(server_reply.get("data"))
-    
+
     def create(self, client) -> 'Device':
         """
         Creates a new device using the provided data with client.
@@ -133,9 +133,9 @@ class Device:
         server_reply = client.__post__("/devices", data)
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
-        
+
         return Device(**server_reply.get("data"))
-    
+
     def update(self, client) -> 'Device':
         """
         Updates the current device with new data using the provided client.
@@ -155,16 +155,16 @@ class Device:
         for field in self.optional_fields + self.required_fields:
             if getattr(self, field) != getattr(old_device_version, field):
                 data["device"][field] = getattr(self, field)
-        
+
         if isinstance(self.user_id, User):
             data["device"]["user_id"] = self.user_id.id
 
         server_reply = client.__patch__(f"/devices/{self.id}", data)
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
-        
+
         return Device(**server_reply.get("data"))
-    
+
     def delete(self, client) -> None:
         """
         Deletes the current device using the provided client.

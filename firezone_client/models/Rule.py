@@ -13,10 +13,10 @@ class Rule:
     # this field need to be both set or equal to None
     port_range: str | None = None
     port_type: str | None = None
-    
+
     # optional fields
     action: str  # default is drop if not specified
-    
+
     # read-only fields
     id: str
     inserted_at: datetime
@@ -55,21 +55,21 @@ class Rule:
             Rule(rule_json)
             for rule_json in client.__get__("/rules")["data"]
         ]
-    
+
     @staticmethod
     def get(client, *args, **kwargs) -> 'Rule':
         rule_id = kwargs.get("id", kwargs.id)
 
         if rule_id is None:
             raise ValueError("id is required")
-        
+
         server_reply = client.__get__(f"/rules/{rule_id}")
 
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
-        
+
         return Rule(server_reply.get("data"))
-    
+
     def create(self, client) -> 'Rule':
         """
         Create a new rule.
@@ -91,7 +91,7 @@ class Rule:
 
         if type(self.port_range) is not type(self.port_type):
             raise ValueError("port_range and port_type must be both set or equal to None")
-        
+
         data["rule"]["port_range"] = self.port_range
         data["rule"]["port_type"] = self.port_type
 
@@ -108,7 +108,7 @@ class Rule:
             raise Exception(server_reply.get("errors"))
 
         return Rule(**server_reply.get("data"))
-    
+
     def update(self, client) -> 'Rule':
         """
         Update the current rule.
@@ -135,9 +135,9 @@ class Rule:
 
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
-        
+
         return Rule(**server_reply.get("data"))
-    
+
     def delete(self, client) -> None:
         """
         Delete the current rule.

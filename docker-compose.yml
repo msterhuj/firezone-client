@@ -1,9 +1,4 @@
 # dev deployment for firezone
-version: '3.7'
-
-volumes:
-  postgres-data:
-
 services:
   firezone:
     image: firezone/firezone:0.7.36
@@ -27,7 +22,7 @@ services:
   postgres:
     image: postgres:15
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres-15:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: firezone
       POSTGRES_USER: postgres

@@ -55,7 +55,7 @@ class FZClient:
 
     def create(self, obj: object) -> object:
         return obj.create(self)
-    
+
     def update(self, obj: object) -> object:
         return obj.update(self)
 

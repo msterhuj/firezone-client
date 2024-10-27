@@ -30,16 +30,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
-      
+
       - name: Set up python
         id: setup-python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -53,15 +53,15 @@ jobs:
         with:
           path: .venv
           key: venv-docs-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      
+
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --with docs --no-root
-      
+
       - run: poetry run mkdocs build --site-dir ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
-  
+
   deploy:
     environment:
       name: github-pages

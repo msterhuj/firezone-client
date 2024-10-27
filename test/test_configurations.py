@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 
 from firezone_client import FZClient, Configuration
-from token_reader import get_token, api_endpoint
+from scripts.token_reader import get_token, api_endpoint
 
 
 class TestConfiguration(unittest.TestCase):

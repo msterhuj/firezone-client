@@ -34,8 +34,8 @@ from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
-# id or email can be used
-user = client.get(User, "user@local")
+# set to variable id the id of the user or the email
+user = client.get(User, id="user@local")
 ```
 
 ## Create User
@@ -68,7 +68,7 @@ from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
-user = client.get(User, "user@local")
+user = client.get(User, id="user@local")
 
 user.role = "admin"
 
@@ -82,7 +82,7 @@ from firezone_client import FZClient, User
 
 client = FZClient(endpoint, token)
 
-user = client.get(User, "user@local")
+user = client.get(User, id="user@local")
 
 client.delete(user)
 ```

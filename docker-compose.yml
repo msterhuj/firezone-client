@@ -6,7 +6,7 @@ volumes:
 
 services:
   firezone:
-    image: firezone/firezone:latest
+    image: firezone/firezone:0.7.36
     ports:
       - 51820:51820/udp
       - 13000:13000

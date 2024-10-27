@@ -72,7 +72,7 @@ class Device:
         :rtype: List[Device]
         """
         return [
-            Device(device_json)
+            Device(**device_json)
             for device_json in client.__get__("/devices")["data"]
         ]
 
@@ -102,7 +102,7 @@ class Device:
         if server_reply.get("errors"):
             raise Exception(server_reply.get("errors"))
 
-        return Device(server_reply.get("data"))
+        return Device(**server_reply.get("data"))
 
     def create(self, client) -> 'Device':
         """
@@ -123,12 +123,16 @@ class Device:
                 raise Exception(f"{field} is required")
             data["device"][field] = getattr(self, field)
 
+        for field in self.optional_fields:
+            try:
+                if getattr(self, field) is not None:
+                    data["device"][field] = getattr(self, field)
+            except AttributeError:
+                pass
+
+        # patch user to user_id in payload
         if isinstance(self.user_id, User):
             data["device"]["user_id"] = self.user_id.id
-
-        for field in self.optional_fields:
-            if getattr(self, field) is not None:
-                data["device"][field] = getattr(self, field)
 
         server_reply = client.__post__("/devices", data)
         if server_reply.get("errors"):
@@ -148,6 +152,7 @@ class Device:
         :return: The updated device.
         :rtype: Device
         """
+        raise NotImplementedError("Update is not implemented yet")
         data = {"device": {}}
 
         old_device_version = Device.get(client, id=self.id)

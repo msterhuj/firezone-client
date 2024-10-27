@@ -29,38 +29,38 @@ class FZClient:
     def __get__(self, url: str) -> json:
         reply = requests.get(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify)
         if reply.status_code == 500:
-            raise Exception("Error for request API")
+            raise Exception("Error for request API : " + reply.text)
         return reply.json()
 
     def __post__(self, url: str, body) -> json:
         reply = requests.post(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify, json=body)
         if reply.status_code == 500:
-            raise Exception("Error for request API")
+            raise Exception("Error for request API : " + reply.text)
         return reply.json()
 
     def __patch__(self, url: str, body) -> json:
         reply = requests.patch(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify, json=body)
         if reply.status_code == 500:
-            raise Exception("Error for request API")
+            raise Exception("Error for request API : " + reply.text)
         return reply.json()
 
     def __delete__(self, url: str) -> json:
         reply = requests.delete(url=self.endpoint + url, headers=self.headers, verify=self.ssl_verify)
         if reply.status_code == 500:
-            raise Exception("Error for request API")
+            raise Exception("Error for request API : " + reply.text)
         return reply.status_code
 
-    def list(self, obj: object) -> List[Device | Configuration | User]:
+    def list(self, obj: List[Device | Configuration | User | Rule]) -> List[Device | Configuration | User | Rule]:
         return obj.list(self)
 
-    def get(self, obj: object, *args, **kwargs) -> object:
+    def get(self, obj: List[Device | Configuration | User | Rule], *args, **kwargs) -> List[Device | Configuration | User | Rule]:
         return obj.get(self, *args, **kwargs)
 
-    def create(self, obj: object) -> object:
+    def create(self, obj: List[Device | Configuration | User | Rule]) -> List[Device | Configuration | User | Rule]:
         return obj.create(self)
 
-    def update(self, obj: object) -> object:
+    def update(self, obj: List[Device | Configuration | User | Rule]) -> List[Device | Configuration | User | Rule]:
         return obj.update(self)
 
-    def delete(self, obj: object) -> object:
+    def delete(self, obj: List[Device | Configuration | User | Rule]) -> List[Device | Configuration | User | Rule]:
         return obj.delete(self)

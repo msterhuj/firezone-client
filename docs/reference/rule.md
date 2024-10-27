@@ -61,19 +61,7 @@ clien.create(rule)
 
 ## Update Rule
 
-!> This function is not implemented yet.
-
-```python
-from firezone_client import FZClient, Rule
-
-client = FZClient(endpoint, token)
-
-rule = client.get(Rule, id="0000-0000-0000")
-
-rule.action = "drop"
-
-client.update(rule)
-```
+> This function is not implemented yet.
 
 ## Delete Rule
 

@@ -10,7 +10,7 @@ edit_uri: https://github.com/msterhuj/firezone-client
 nav:
   - Getting Started: index.md
   - Reference:
-    - Configuration: reference/Configuration.md
+    - Configuration: reference/configuration.md
     - User: reference/user.md
     - Rule: reference/rule.md
 

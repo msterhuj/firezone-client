@@ -15,15 +15,18 @@ class TestConfiguration(unittest.TestCase):
         self.assertIsInstance(config, Configuration)
         self.default_config = config
 
-    #def test_update_config(self):
-    #    config: Configuration = self.client.get(Configuration)
-    #    dns_total = len(config.default_client_dns)
-    #    config.default_client_dns.append("0.0.0.0")
-    #    self.client.patch(config)
-    #    new_config: Configuration = self.client.get(Configuration)
-    #    self.assertEqual(len(new_config.default_client_dns), dns_total + 1)
-    #    new_config.default_client_dns.pop(2)
-    #    self.client.patch(new_config)
+    def test_update_config(self):
+        config: Configuration = self.client.get(Configuration)
+        dns_total = len(config.default_client_dns)
+        print(f"Current number of dns server: {dns_total}")
+        config.default_client_dns.append("0.0.0.0")
+        config.default_client_allowed_ips.append("10.0.0.0/24")
+        self.client.update(config)
+        print(f"Updated number of dns server: {len(config.default_client_dns)}")
+
+        new_config: Configuration = self.client.get(Configuration)
+        self.assertIn("0.0.0.0", new_config.default_client_dns)
+        self.assertIn("10.0.0.0/24", new_config.default_client_allowed_ips)
 
     def tearDown(self) -> None:
         ...

@@ -13,6 +13,7 @@ class User:
     updated_at: datetime
 
     password: str | None = None
+    password_confirmation: str | None = None
 
     def __init__(self, *args, **kwargs) -> None:
         """
@@ -40,7 +41,7 @@ class User:
         :rtype: List[User]
         """
         return [
-            User(user_json)
+            User(**user_json)
             for user_json in client.__get__("/users")["data"]
         ]
 
@@ -62,15 +63,16 @@ class User:
         """
         user_id = kwargs.get("id")
 
-        if user_id is None:
-            raise Exception("id is required")
+        if not user_id:
+            raise Exception("id key is required")
 
         server_reply = client.__get__(f"/users/{user_id}")
+        data = server_reply.get("data")
 
-        if server_reply.get("errors"):
-            raise Exception(server_reply.get("errors"))
+        if not data:
+            raise Exception(server_reply)
 
-        return User(server_reply.get("data"))
+        return User(**data)
 
     def create(self, client) -> 'User':
         """
@@ -95,10 +97,12 @@ class User:
             data["user"]["password_confirmation"] = self.password
 
         server_reply = client.__post__("/users", data)
-        if server_reply.get("errors"):
-            raise Exception(server_reply.get("errors"))
+        server_data = server_reply.get("data")
 
-        return User(**server_reply.get("data"))
+        if not server_data:
+            raise Exception(server_reply)
+
+        return User(**server_data)
 
     def update(self, client) -> 'User':
         """
@@ -122,10 +126,12 @@ class User:
                 data["user"][attribute] = getattr(self, attribute)
 
         server_reply = client.__patch__(f"/users/{self.id}", data)
-        if server_reply.get("errors"):
-            raise Exception(server_reply.get("errors"))
+        server_data = server_reply.get("data")
 
-        return User(**server_reply.get("data"))
+        if not server_data:
+            raise Exception(server_reply)
+
+        return User(**server_data)
 
     def delete(self, client):
         """

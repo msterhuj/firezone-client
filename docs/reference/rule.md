@@ -61,6 +61,8 @@ clien.create(rule)
 
 ## Update Rule
 
+!> This function is not implemented yet.
+
 ```python
 from firezone_client import FZClient, Rule
 

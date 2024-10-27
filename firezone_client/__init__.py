@@ -4,7 +4,7 @@ from typing import List
 
 import requests
 
-from firezone_client.models import Configuration, User, Device
+from firezone_client.models import Configuration, User, Device, Rule
 from firezone_client.key_generator import generate_key_pair
 from firezone_client.password_generator import generate_password
 

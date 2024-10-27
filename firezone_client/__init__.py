@@ -6,6 +6,7 @@ import requests
 
 from firezone_client.models import Configuration, User, Device
 
+__version__ = "0.0.0"
 
 class FZClient:
     endpoint: str

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class Configurations:
+class Configuration:
     allow_unprivileged_device_configuration: bool
     allow_unprivileged_device_management: bool
     default_client_allowed_ips: list
@@ -19,9 +19,9 @@ class Configurations:
     updated_at: datetime
     vpn_session_duration: int
 
-    def __init__(self, *args, **kwargs) -> 'Configurations':
+    def __init__(self, *args, **kwargs) -> 'Configuration':
         """
-        Iinitializes a new instance of the Configurations class from dict.
+        Iinitializes a new instance of the Configuration class from dict.
 
         :param args: Positional arguments to pass to the constructor.
         :type args: tuple
@@ -32,7 +32,7 @@ class Configurations:
         self.__dict__.update(kwargs)
 
     @staticmethod
-    def get(client, *args, **kwargs) -> 'Configurations':
+    def get(client, *args, **kwargs) -> 'Configuration':
         """
         Retrieves the current configuration.
 
@@ -42,9 +42,9 @@ class Configurations:
         :raises Exception: If the server returns an error.
 
         :return: The current configuration.
-        :rtype: Configurations
+        :rtype: Configuration
         """
-        return Configurations(client.__get__("/configuration")["data"])
+        return Configuration(client.__get__("/configuration")["data"])
 
     def update(self, client):
         """
@@ -56,7 +56,7 @@ class Configurations:
         :raises Exception: If the server returns an error.
 
         :return: The updated configuration.
-        :rtype: Configurations
+        :rtype: Configuration
         """
         data = {
             "configuration": {

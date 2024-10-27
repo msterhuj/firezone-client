@@ -4,7 +4,7 @@ from typing import List
 
 import requests
 
-from firezone_client.models import Configurations, User, Device
+from firezone_client.models import Configuration, User, Device
 
 
 class FZClient:
@@ -47,7 +47,7 @@ class FZClient:
             raise Exception("Error for request API")
         return reply.status_code
 
-    def list(self, obj: object) -> List[Device | Configurations | User]:
+    def list(self, obj: object) -> List[Device | Configuration | User]:
         return obj.list(self)
 
     def get(self, obj: object, *args, **kwargs) -> object:

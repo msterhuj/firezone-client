@@ -1,9 +1,9 @@
-# Configurations Management
+# Configuration Management
 
 ## Object structure
 
 ```python
-class Configurations:
+class Configuration:
     allow_unprivileged_device_configuration: bool
     allow_unprivileged_device_management: bool
     default_client_allowed_ips: list
@@ -22,14 +22,14 @@ class Configurations:
     vpn_session_duration: int
 ```
 
-## Get current configurations of firezone
+## Get current Configuration of firezone
 
 ```python
-from firezone_client import FZclient, Configurations
+from firezone_client import FZclient, Configuration
 
 client = FZClient(endpoint, token)
 
-config = client.get(Configurations)
+config = client.get(Configuration)
 
 print(config.updated_at)
 ```
@@ -38,7 +38,7 @@ print(config.updated_at)
 
 ```python
 # get current config
-config = client.get(Configurations)
+config = client.get(Configuration)
 
 # for example add new ip to the list for dns
 config.default_client_dns.append("1.1.1.1")

@@ -18,7 +18,7 @@ pip install firezone-client
 ## Init client
 
 ```python
-from firezone_client import FZclient, Configurations
+from firezone_client import FZclient, Configuration
 
 endpoint = "http://localhost:13000/v0"
 token = "0123456789abcdef"

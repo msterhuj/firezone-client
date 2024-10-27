@@ -6,6 +6,10 @@ on:
     paths:
       - "tests/**"
       - "firezone_client/**"
+  pull_request:
+    paths:
+      - "tests/**"
+      - "firezone_client/**"
 
 jobs:
   test:

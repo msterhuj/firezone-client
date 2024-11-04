@@ -17,11 +17,11 @@ class TestRule(unittest.TestCase):
 
     def setUp(self):
         self.client: FZClient = FZClient(api_endpoint, get_token())
+        self.user: User = self.client.get(User, id=USERNAME)
 
     def test_create_rule(self):
-        user = User.get(self.client, id=USERNAME)
         rule: Rule = Rule(
-            user_id=user,
+            user_id=self.user,
             destination=random_24_subnet(),
             action="accept",
         )
@@ -30,6 +30,12 @@ class TestRule(unittest.TestCase):
         self.assertIsInstance(rule_reply.id, str)
 
     def test_list_rules(self):
+        rule: Rule = Rule(
+            user_id=self.user,
+            destination=random_24_subnet(),
+            action="accept",
+        )
+        self.client.create(rule)
         rules = Rule.list(self.client)
         self.assertIsInstance(rules, list)
         self.assertIsInstance(rules[0], Rule)
@@ -46,9 +52,8 @@ class TestRule(unittest.TestCase):
     #    rule_reply_updated = self.client.update(rule_reply)
 
     def test_delete_rule(self):
-        user = User.get(self.client, id=USERNAME)
         rule: Rule = Rule(
-            user_id=user,
+            user_id=self.user,
             destination=random_24_subnet(),
             action="accept",
         )
@@ -57,4 +62,5 @@ class TestRule(unittest.TestCase):
 
 
     def tearDown(self) -> None:
-        ...
+        for rule in Rule.list(self.client):
+            self.client.delete(rule)

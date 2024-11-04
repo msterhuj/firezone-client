@@ -29,4 +29,7 @@ class TestConfiguration(unittest.TestCase):
         self.assertIn("10.0.0.0/24", new_config.default_client_allowed_ips)
 
     def tearDown(self) -> None:
-        ...
+        config: Configuration = self.client.get(Configuration)
+        config.default_client_dns = ["1.1.1.1", "1.0.0.1"]
+        config.default_client_allowed_ips = ["0.0.0.0/0", "::/0"]
+        self.client.update(config)

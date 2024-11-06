@@ -58,7 +58,7 @@ class Rule:
 
     @staticmethod
     def get(client, *args, **kwargs) -> 'Rule':
-        rule_id = kwargs.get("id", kwargs.id)
+        rule_id = kwargs.get("id")
 
         if rule_id is None:
             raise ValueError("id is required")

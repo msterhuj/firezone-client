@@ -9,7 +9,7 @@ packages = [{include = "firezone_client"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 requests = "^2.31.0"
-cryptography = "^43.0.3"
+cryptography = ">=43.0.3,<45.0.0"
 
 
 [tool.poetry.group.docs.dependencies]
